@@ -27,7 +27,7 @@ Wherever possible we will describe the patterns in technology-agnostic terms, ev
 
 ## No architecture at all
 
-- The **big ball of mud** is not in any category because it is not an architectural pattern. It is, rather, the complete absence of architecture in a software system. It deserves mentioning because it could still be argued to be an architectural style, and it is also very common out in the wild, probably more so than we care to admit. It has many severe drawbacks but it is nonetheless not wholly without virtue, and it is instructive to know the forces that drive software systems into this state.
+- The [big ball of mud](no-architecture/big-ball-of-mud) is not in any category because it is not an architectural pattern. It is, rather, the complete absence of architecture in a software system. It deserves mentioning because it could still be argued to be an architectural style, and it is also very common out in the wild, probably more so than we care to admit. It has many severe drawbacks but it is nonetheless not wholly without virtue, and it is instructive to know the forces that drive software systems into this state.
 
 ## Code design
 
@@ -59,13 +59,13 @@ Wherever possible we will describe the patterns in technology-agnostic terms, ev
 - [Server-side rendered](web-applications/server-side-rendered) web applications are where the HTML is generated on the backend and transmitted directly to the browser to be displayed. This lends itself quite naturally to the whole page-at-a-time navigation style, although is frequently supplemented with AJAX calls to enrich the user experience. This style of web application has fallen rather out of favour.
 - In server-side rendered web apps, a common way of structuring the code is the [model-view-controller](web-applications/model-view-controller) pattern, where the HTTP requests are handled by controllers, passing model data to a view component which transforms the data into HTML.
 - [Client-side rendered](web-applications/client-side-rendered) web applications are where the HTML is generated on the front end and interaction with the backend is done through APIs. These invariably utilise some form of Javascript framework.
-- The client-side rendered design lends itself quite naturally to the **single page app** architecture. The initial page request loads the whole app, and there are no more whole page roundtrips to the server. All subsequent interactions with the server are more akin to the behavious of a client-server application.
+- The client-side rendered design lends itself quite naturally to the [single page app](web-applications/single-page-app) architecture. The initial page request loads the whole app, and there are no more whole page roundtrips to the server. All subsequent interactions with the server are more akin to the behavious of a client-server application.
 - A [micro frontend](web-applications/micro-frontend) implements a web UI component that can be incorporated into a larger web application. Apart from the UI, it shares many similarities with the microservice pattern.
 
 ## API design
 
-- The **RPC** style (remote procedure call) of API design exposes a function or procedure to be called via a network. The words function and procedure have their usual meanings: a function is a query (it returns a result), and a procedure is a command (it causes an effect). RPC-style APIs are generally synchronous (blocking) because an asynchronous API is much more natural to implement in the resource style.
-- **Resource** style APIs are oriented around creating, querying, and modifying notional resources on the remote end. These include document-style SOAP APIs as well as RESTful APIs which are modelled as HTTP resources. Asynchronous APIs are natural to implement in the resource style because the initial invocation can create a resource that represents the status (and result, if appropriate) of the asynchronous operation.
+- The [RPC](api-design/rpc) style (remote procedure call) of API design exposes a function or procedure to be called via a network. The words function and procedure have their usual meanings: a function is a query (it returns a result), and a procedure is a command (it causes an effect). RPC-style APIs are generally synchronous (blocking) because an asynchronous API is much more natural to implement in the resource style.
+- [Resource](api-design/resource) style APIs are oriented around creating, querying, and modifying notional resources on the remote end. These include document-style SOAP APIs as well as RESTful APIs which are modelled as HTTP resources. Asynchronous APIs are natural to implement in the resource style because the initial invocation can create a resource that represents the status (and result, if appropriate) of the asynchronous operation.
 
 ## Data organisation
 
