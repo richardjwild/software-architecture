@@ -19,6 +19,8 @@ As for the categorisation, that is entirely our own work. We have grouped the ar
 | API design | Patterns of designing remote APIs. |
 | Data organisation | Patterns of organising and structuring data in a persistent store. |
 
+---
+
 Some of these patterns preclude the use of others, for example monoliths and microservices are generally defined in opposition to each other. There are nonetheless many more acceptable combinations than there are incompatible ones. For example, there is nothing to stop you using the CQRS pattern in a monolithic application that employs a hexagonal architecture, or a microservice that is implemented as an n-tier application.
 
 Wherever possible we will describe the patterns in technology-agnostic terms, even in the cases where common products exist that are famously associated with the pattern. We believe that technologies come and go more rapidly than design and architecture patterns do, and it is our hope that by not tying this guide to specific technologies it will remain relevant for longer. There are some exceptions: the web application architectural patterns seemed important enough to include, and it is impossible to discuss those without making reference to HTTP, etc. Similarly, it is not really feasible to discuss resource-oriented API designs without talking about REST and HATEOAS, even though they too are intrinsically associated with HTTP.
