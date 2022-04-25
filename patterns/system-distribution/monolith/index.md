@@ -1,0 +1,1 @@
+![Monolithic architecture](monolith.jpg)
