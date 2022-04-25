@@ -1,37 +1,19 @@
-## Welcome to GitHub Pages
+What is software architecture? Of those who have an opinion on the subject, most probably have an intuitive understanding that software architecture is a high level design for a software system. But that doesn’t really answer the question, it simply poses a new one. Probably we can all agree about where the ‘low’ level of a software design is found: the code. The sticking point is agreeing on what lies ‘above’ that. The problem is that none of the metaphors for software development we often use (for example, manufacturing, or construction) accurately match the process. [Software development may indeed be a branch of engineering](https://www.hillelwayne.com/post/are-we-really-engineers/), but that does not mean it precisely resembles any other branch of engineering; nor is there any reason to suppose that it should.
 
-You can use the [editor on GitHub](https://github.com/richardjwild/software-architecture/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+The term ‘architecture’ is of course borrowed from construction, where it refers to both the design or plans for the thing to be constructed, be it a house, skyscraper, or whatever, and also the discipline of creating such designs. In this sense of the word there are obvious distinctions between the plans, the object, and the building of the object. However, that does not apply to software development, because no-one actually ‘builds’ software in the way that people build physical objects. The building of the software is performed by the compiler and associated tools, not by the programmer: [a programmer’s job is more accurately characterised as a design activity](https://user.it.uu.se/~carle/softcraft/notes/Reeve_SourceCodeIsTheDesign.pdf). (Indeed, in the case of interpreted languages such as JavaScript, it is unclear whether the software development process has a ‘build’ step at all).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+So if software development is a design process, where will we find the ‘high’ level of the design, and what will we see there? Our problem here is that software designs are composed of code on every level, with the possible exception of diagrams, and we do not wish software architecture to be restricted to just diagramming. There is certainly truth in the caricature of an ivory tower, with software architects sitting in it up on high drawing ‘architecture porn’, but software architects aren’t much use if that’s all they do. We don't want this to be what software architecture is all about. Consequently, we prefer to go with [the definition proposed by Grady Booch](https://twitter.com/grady_booch/status/1071674450767048704?lang=en-GB):
 
-### Markdown
+> Software architecture represents the significant design decisions that shape a system, where significant is measured by cost of change. 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+We have already accepted that all of software is design, but it does not follow that all software design is architecture, otherwise a software system and its architecture would be one and the same thing. By Grady Booch’s definition, whether or not a design decision counts as architectural depends on how difficult it is to change later on. In any non-trivial software system, certain design decisions will be taken early in the project and then built upon, such that to change them later would require redoing much of the work that has been done since. Those design decisions therefore can be considered architectural, and the sum of all such decisions made with respect to a software system can be said to be its architecture.
 
-```markdown
-Syntax highlighted code block
+*In fact, if we think of design decisions being built ‘on top’ of earlier ones, this would locate the architecture at the bottom, not at the top. So maybe a system’s architecture is not a high-level view after all, but could be compared instead to its foundations!*
 
-# Header 1
-## Header 2
-### Header 3
+This has implications for Agile software development techniques, all of which emphasise incremental delivery in order to obtain quick feedback on what is being delivered. The hegemony of Agile is concomitant with a widespread aversion to up front design, which has come to be seen as a relic of the linear “waterfall” style of software development. However, doing no design up front is throwing a hostage to fortune: it stands to reason that the architectural decisions are likely to be made early on in a project, and getting them wrong will be costly, therefore we do not want to make them in ignorance. This should not be construed as an argument for a return to doing Big Design Up Front. The original objections to that remain valid: it impedes incremental delivery, and it lengthens the lead time for even the minimum implementation needed to test out a hypothesis. Both of these things make it more likely that the software ends up not solving the actual problem. Rather, it is an argument for doing just enough of the right kind of design up front, no more and no less than is required.
 
-- Bulleted
-- List
+What this means is that we do need to spend at least some effort up front on understanding the problem, because certain aspects of the problem will influence the design in ways that will be difficult to revise later. It is true that it isn’t generally possible to understand everything about the problem up front; our understanding always grows with time as we gain more experience. But it does not follow that we should therefore not try to understand the problem at all. If we ‘leap before we look’, we run the risk of making an expensive mistake.
 
-1. Numbered
-2. List
+We can avoid this dilemma by understanding what particular aspects of the problem we should pay the most attention to in the beginning of a project. Not all of a software system’s requirements are equal; not all of them have architectural implications. It is a curious thing that the ‘operational’ requirements (often unimaginatively called the ‘non-functional’ requirements) tend to influence the architecture much more than the ‘functional’ requirements do. This means in particular things such as performance, scalability, security, and flexibility. If a website needs to support hundreds of thousands of concurrent users; if a system needs to scale elastically up and down in response to highly variable demand; requirements such as these are apt to have a far more profound impact on the design than its individual use cases will have.
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/richardjwild/software-architecture/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+*We should also adopt an appropriately humble attitude and accept that our foresight is limited. Sometimes we will make choices that are later proved incorrect. We may assume that a software system will never need to scale up and later find out that it does. (We might equally design a software system for scalability that never ends up requiring it). We need to have a solid understanding of the trade-offs associated with various architectural patterns, so that we can recognise when new requirements will require a redesign, or even a rewrite, of a system that is built on them. [Altering the behaviour of legacy systems by accretion](https://twitter.com/norootcause/status/1509161519598104581?t=_fX5tmi2SWLatRvq_5odJg&s=19) without revising the original design is a primary cause of software decay. In the face of changed requirements, starting afresh is sometimes the best course of action, but such a drastic call needs strong justification. We need a solid foundation of knowledge in order to provide it.*
