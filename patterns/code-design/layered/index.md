@@ -1,4 +1,4 @@
-[Software Architecture](../../..) > [Patterns](../..) > Code Design > Layered Architecture
+[Software Architecture](../../..) > [Patterns](../..) > [Code Design](..) > Layered Architecture
 
 ---
 
