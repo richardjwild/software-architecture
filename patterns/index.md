@@ -1,3 +1,7 @@
+[Software Architecture](..) | Patterns
+
+---
+
 # Software architecture patterns
 
 Architectural designs in software do not need to be invented from scratch for every system, there are by now a number of different architectural patterns that are widely known. These patterns are similar in concept to the better known [Gang of Four design patterns](https://springframework.guru/gang-of-four-design-patterns/), in that they are generalised designs which can be applied to software systems to solve common classes of programming problems. The difference is that the Gang of Four-style design patterns are intended to be implemented in object-oriented programming languages in particular. Architectural patterns are not OO designs: they can be implemented in almost any programming language. Also, the GoF patterns are solutions to very specific programming problems; they are just not *domain* specific. The types of problem that architectural patterns solve are more general. Moreover, they lend shape to the whole system: a system cannot be refactored away from an architectural pattern without substantially re-implementing it.
@@ -10,33 +14,24 @@ As for the categorisation, that is entirely my own work. I have grouped the arch
 
 ![Architectural patterns grouped into categories.](software-architecture-patterns.jpg)
 
-| Category | Description |
-| --- | --- |
-| Code design | Patterns of structuring or organising the code internally within an application. |
-| System distribution | Patterns of organising systems that are distributed across multiple computers. |
-| Messaging | Patterns pertaining to flow of control through a system via messages or events. |
-| Web apps | Patterns of structuring and distributing web applications. |
-| API design | Patterns of designing remote APIs. |
-| Data organisation | Patterns of organising and structuring data in a persistent store. |
-
----
-
 Some of these patterns preclude the use of others, for example monoliths and microservices are generally defined in opposition to each other. There are nonetheless many more acceptable combinations than there are incompatible ones. For example, there is nothing to stop you using the CQRS pattern in a monolithic application that employs a hexagonal architecture, or a microservice that is implemented as an n-tier application.
 
 Wherever possible the patterns are described in technology-agnostic terms, even in the cases where common products exist that are famously associated with the pattern. I believe that technologies come and go more rapidly than design and architecture patterns do, and it is my hope that by not tying this guide to specific technologies it will remain relevant for longer. There are some exceptions: the web application architectural patterns seemed important enough to include, and it is impossible to discuss those without making reference to HTTP, etc. Similarly, it is not really feasible to discuss resource-oriented API designs without talking about REST and HATEOAS, even though they too are intrinsically associated with HTTP.
 
 ## No architecture at all
 
-- The [big ball of mud](no-architecture/big-ball-of-mud) is not in any category because it is not an architectural pattern. It is, rather, the complete absence of architecture in a software system. It deserves mentioning because it could still be argued to be an architectural style, and it is also very common out in the wild, probably more so than we care to admit. It has many severe drawbacks but it is nonetheless not wholly without virtue, and it is instructive to know the forces that drive software systems into this state.
+The [big ball of mud](no-architecture/big-ball-of-mud) is not in any category because it is not an architectural pattern. It is, rather, the complete absence of architecture in a software system. It deserves mentioning because it could still be argued to be an architectural style, and it is also very common out in the wild, probably more so than we care to admit. It has many severe drawbacks but it is nonetheless not wholly without virtue, and it is instructive to know the forces that drive software systems into this state.
 
 ## Code design
 
+These patterns pertain to the structuring or organisation of the code internally within an application.
 - The [layered](code-design/layered) architectural pattern aids comprehensibility and discoverability by organising a system’s code into distinct layers, with separate responsibilities assigned to each layer. There are usually rules governing how the layers may talk to each other: for example, the UI layer may talk to the service layer, but not directly to the persistence layer.
 - The [hexagonal](code-design/hexagonal) pattern (also known as “ports and adapters”) separates core logic from external concerns (such as user interfaces and databases) by exposing “ports” (interfaces) on the core component that define the required protocols separately for each externality. The externalities are connected to the component by “adapters” which plug into the ports to provide the required functionality while also isolating the component from the external details. A hexagonal design treats all externalities on an equal footing, unlike a layered design which by its top-to-bottom orientation implies a hierarchy. The hexagon shape was chosen to make it easy to represent the ports on a diagram, recognising that components often interface with more than two other components (but seldom more than six).
 - A [plugin](code-design/plugin) architecture delegates certain system responsibilities to interchangeable components that are “plugged in” to the host system via a common API that is defined by the host system. Thus the host system has no dependency on its plugins: the plugins can be developed entirely separately by different people, and they may extend the host system’s functionality in ways not anticipated by its creators. The host system and its plugins run as a single process, but the plugins may be linked either statically, which requires the host system to be recompiled, or dynamically, which does not.
 
 ## System distribution
 
+These patterns describe methods of organising systems that are distributed across multiple computers.
 - A [monolith](system-distribution/monolith) is the degenerate case of distributed systems, being not distributed at all. Monolithic systems typically run in a single process, and they are built and deployed as a single unit.
 - The [client-server](system-distribution/client-server) model separates the application into multiple rich (or ‘thick’) user interface components (the clients) each in two-way communication with a single common backend (the server). Client-server designs fell out of favour when web applications became popular but have returned in the form of mobile apps, although these designs are not usually referred to as such.
 - The [n-tier](system-distribution/n-tier) architecture separates an application into multiple layers, but unlike the layered architecture pattern, each layer runs on a separate machine. An example would be a web application comprising a web server handling the HTTP requests, an application server where the business logic resides, and a database where the data is persisted.
@@ -49,13 +44,14 @@ Wherever possible the patterns are described in technology-agnostic terms, even 
 
 ## Messaging
 
+These patterns pertain to the flow of control through a system via messages or events.
 - An [event-driven](messaging/event-driven) architecture inverts the flow of control through a system: rather than one component commanding another component, the first component instead raises an event which the second component is listening for and reacts to appropriately. This allows the system’s components to be decoupled from each other, and gives greater flexibility to alter the system’s behaviour through extension without requiring modification to existing components. When the events are persisted and treated as the primary data source, you have an [event sourced](messaging/event-sourcing) system (see data organisation for more details).
 - An event sourced system implicitly implements the [CQRS](messaging/cqrs) pattern (command/query responsibility segregation), where the queries (reading data from a persistence store) are separated from the commands (modifying data in a persistence store). It does this by using entities/data structures for modification operations that are distinct from the entities/data structures that are returned by the queries. The CQRS pattern can also be applied to non-event sourced systems: it is also useful in avoiding data inconsistencies due to concurrent updates. It makes a lot of sense when the system producing the data is distinct from the system(s) consuming the data. When the producer and consumer are the same system, the complexity of the design may outweigh its benefits.
 - The CQRS pattern contrasts with the [CRUD](messaging/crud) design (create, read, update, delete), which uses the same entities or data structures for both queries and updates. CRUD designs are simpler, but care may be needed when updates can occur concurrently.
 
 ## Web apps
 
-- Web applications may be classified in two general types: server-side rendered and client-side rendered.
+These are patterns of structuring and distributing web applications. Web applications may be classified in two general types: server-side rendered and client-side rendered.
 - [Server-side rendered](web-applications/server-side-rendered) web applications are where the HTML is generated on the backend and transmitted directly to the browser to be displayed. This lends itself quite naturally to the whole page-at-a-time navigation style, although is frequently supplemented with AJAX calls to enrich the user experience. This style of web application has fallen rather out of favour.
 - In server-side rendered web apps, a common way of structuring the code is the [model-view-controller](web-applications/model-view-controller) pattern, where the HTTP requests are handled by controllers, passing model data to a view component which transforms the data into HTML.
 - [Client-side rendered](web-applications/client-side-rendered) web applications are where the HTML is generated on the front end and interaction with the backend is done through APIs. These invariably utilise some form of Javascript framework.
@@ -64,11 +60,13 @@ Wherever possible the patterns are described in technology-agnostic terms, even 
 
 ## API design
 
+Patterns of designing remote APIs.
 - The [RPC](api-design/rpc) style (remote procedure call) of API design exposes a function or procedure to be called via a network. The words function and procedure have their usual meanings: a function is a query (it returns a result), and a procedure is a command (it causes an effect). RPC-style APIs are generally synchronous (blocking) because an asynchronous API is much more natural to implement in the resource style.
 - [Resource](api-design/resource) style APIs are oriented around creating, querying, and modifying notional resources on the remote end. These include document-style SOAP APIs as well as RESTful APIs which are modelled as HTTP resources. Asynchronous APIs are natural to implement in the resource style because the initial invocation can create a resource that represents the status (and result, if appropriate) of the asynchronous operation.
 
 ## Data organisation
 
+These are patterns of organising and structuring data in a persistent store.
 - [Key-value](data-organisation/key-value-database) databases are the simplest form of database. They store singly-valued data, where each data value is associated with a unique key that facilitates efficient retrieval.
 - A [document](data-organisation/document-database) database is similar to a key-value database except that it facilitates the storing of structured data, typically JSON objects. The database may allow the data to be constrained by a schema or not. It probably facilitates filtering the queried data but cross-referencing is usually difficult.
 - [Relational](data-organisation/relational-database) databases organise data into tables, which are discrete collections of rows (or ‘tuples’). Each table has a schema which defines the columns of every row in the table. A relational database management system (RDBMS) allows tables to be cross-referenced (joined) when they are being queried, and there is no need to predefine the queries when the database is being designed, which is what gives them their power and flexibility. Relational databases are queried and manipulated using a declarative language called SQL (structured query language) which allows arbitrarily table joins to be combined with sophisticated set operations to accomplish very powerful data processing. SQL is a defined standard, although each RDBMS implements its own extensions to the language; in this way the database vendors hope to lock you in.
