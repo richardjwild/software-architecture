@@ -1,1 +1,4 @@
-../../web-applications/micro-frontend
+---
+layout: forward
+target: ../../web-applications/micro-frontend
+---
